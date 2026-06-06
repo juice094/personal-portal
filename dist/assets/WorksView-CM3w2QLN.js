@@ -1,0 +1,1 @@
+import{at as e,it as t,lt as n,tt as r}from"./vue-vendor-BW2eosXs.js";import{t as i}from"./app-0nfYEFsD.js";import{n as a,r as o,t as s}from"./PhotoWall-B4JK7-iu.js";var c={class:`works-view`},l=i(e({__name:`WorksView`,setup(e){return(e,i)=>(n(),r(`div`,c,[t(o),t(s),t(a)]))}}),[[`__scopeId`,`data-v-37d075e8`]]);export{l as default};

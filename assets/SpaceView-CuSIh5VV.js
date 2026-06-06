@@ -1,0 +1,1 @@
+import{at as e,it as t,lt as n,tt as r}from"./vue-vendor-BW2eosXs.js";import{t as i}from"./app-0nfYEFsD.js";import{n as a,t as o}from"./CustomCards-BeJLmlGb.js";var s={class:`space-view`},c=i(e({__name:`SpaceView`,setup(e){return(e,i)=>(n(),r(`div`,s,[t(a),t(o)]))}}),[[`__scopeId`,`data-v-65627fd3`]]);export{c as default};
