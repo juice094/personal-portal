@@ -65,9 +65,7 @@
               <div class="modal-tags">
                 <span v-for="tag in selectedArticle.tags" :key="tag" class="tag">{{ tag }}</span>
               </div>
-              <div class="modal-content">
-                <pre>{{ selectedArticle.content }}</pre>
-              </div>
+              <div class="modal-content markdown-body" v-html="selectedArticle?.htmlContent" />
               <a v-if="selectedArticle.url" :href="selectedArticle.url" target="_blank" rel="noopener" class="modal-link">
                 查看原文 &rarr;
               </a>
@@ -82,10 +80,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { FileText } from 'lucide-vue-next'
-import { useArticleStore, type Article, type ArticleCategory } from '@/stores/articles'
+import { useArticleStore, type ArticleCategory } from '@/stores/articles'
+import type { LoadedArticle } from '@/content/loader'
 
 const articleStore = useArticleStore()
-const selectedArticle = ref<Article | null>(null)
+const selectedArticle = ref<LoadedArticle | null>(null)
 
 const categories = [
   { value: 'all' as const, label: '全部' },
@@ -105,7 +104,7 @@ function categoryLabel(cat: ArticleCategory): string {
   return map[cat]
 }
 
-function openArticle(article: Article) {
+function openArticle(article: LoadedArticle) {
   selectedArticle.value = article
 }
 
@@ -382,19 +381,6 @@ function closeArticle() {
   flex-wrap: wrap;
   margin-bottom: 1rem;
 }
-
-.modal-content pre {
-  font-family: inherit;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  font-size: 0.9375rem;
-  line-height: 1.8;
-  color: #334155;
-  margin: 0;
-  transition: color 1s;
-}
-
-.dark .modal-content pre { color: #cbd5e1; }
 
 .modal-link {
   display: inline-block;

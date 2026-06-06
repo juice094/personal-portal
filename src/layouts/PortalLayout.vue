@@ -39,7 +39,7 @@ const themeStore = useThemeStore()
 
 // 卡片区域自适应缩放 —— 导航栏保持原大小
 const BASE_WIDTH = 1440  // 设计稿基准宽度
-const windowWidth = ref(window.innerWidth)
+const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : BASE_WIDTH)
 const scaleWrapperRef = ref<HTMLElement | null>(null)
 const rawContentHeight = ref(0)
 

@@ -30,7 +30,9 @@ const canvasRef = ref<HTMLCanvasElement | null>(null)
 const effectsStore = useEffectsStore()
 const themeStore = useThemeStore()
 
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+const prefersReducedMotion = typeof window !== 'undefined'
+  ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  : false
 
 const resolvedType = computed(() => {
   if (!effectsStore.isEnabled || prefersReducedMotion) return null

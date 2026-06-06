@@ -1,27 +1,34 @@
-import { createApp } from 'vue'
+import { ViteSSG } from 'vite-ssg'
 import { createPinia } from 'pinia'
 
 import '@/vendor/echarts-config'
 
 import App from './App.vue'
-import router from './router'
+import routes from './router'
 
-// SAFETY: ElMessageBox/ElMessage 是 JS API 调用（非模板组件），
-// unplugin-vue-components 不会自动注入它们的样式，需显式导入。
-import 'element-plus/theme-chalk/el-message-box.css'
-import 'element-plus/theme-chalk/el-message.css'
-import 'element-plus/theme-chalk/el-overlay.css'  // ElMessageBox 遮罩层依赖
-
-// Element Plus 全局配置：中文语言包
 import ElementPlus from 'element-plus'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
 import './styles/index.scss'
 
-const app = createApp(App)
+// SAFETY: ElMessageBox/ElMessage/ElOverlay 是 JS API 调用（非模板组件），
+// unplugin-vue-components 不会自动注入它们的样式。
+// 在 SSR 阶段跳过 CSS 导入，避免 Node.js ESM 不支持 .css 扩展名。
+async function importClientStyles(): Promise<void> {
+  if (typeof window !== 'undefined') {
+    await import('element-plus/theme-chalk/el-message-box.css')
+    await import('element-plus/theme-chalk/el-message.css')
+    await import('element-plus/theme-chalk/el-overlay.css')
+  }
+}
 
-app.use(ElementPlus, { locale: zhCn, zIndex: 10000 })
-app.use(createPinia())
-app.use(router)
-
-app.mount('#app')
+// vite-ssg 导出模式：SSG 构建时调用，生成静态 HTML
+export const createApp = ViteSSG(
+  App,
+  { routes, base: import.meta.env.BASE_URL },
+  async ({ app, router, isClient }) => {
+    await importClientStyles()
+    app.use(ElementPlus, { locale: zhCn, zIndex: 10000 })
+    app.use(createPinia())
+  },
+)
