@@ -25,7 +25,7 @@ async function importClientStyles(): Promise<void> {
 // vite-ssg 导出模式：SSG 构建时调用，生成静态 HTML
 export const createApp = ViteSSG(
   App,
-  { routes, base: import.meta.env.BASE_URL },
+  { routes, base: '/personal-portal/' },
   async ({ app, router, isClient }) => {
     await importClientStyles()
     app.use(ElementPlus, { locale: zhCn, zIndex: 10000 })

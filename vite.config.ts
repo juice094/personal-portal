@@ -38,7 +38,7 @@ function ssrCssExternalPlugin() {
 }
 
 export default defineConfig({
-  base: '/',
+  base: '/personal-portal/',
   plugins: [
     markdownRawPlugin(),
     ssrCssExternalPlugin(),
